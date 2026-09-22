@@ -141,18 +141,6 @@
   .status{font-size:13.5px; color:var(--ink-soft);}
   .status.err{color:var(--danger);}
 
-  .confirm{
-    display:none; text-align:center; padding:36px 20px;
-  }
-  .confirm.show{display:block;}
-  .confirm .mark{font-size:38px; color:var(--accent);}
-  .confirm h2{font-size:22px; margin:10px 0 8px;}
-  .confirm p{color:var(--ink-soft); font-size:14.5px; max-width:46ch; margin:0 auto;}
-  .confirm button{
-    margin-top:18px; font:inherit; font-weight:600; font-size:13.5px; color:var(--accent-strong);
-    background:none; border:1px solid var(--border); border-radius:999px; padding:9px 18px; cursor:pointer;
-  }
-
   .context-block{margin-top:32px;}
   .context-block h2{font-size:22px; color:var(--accent-strong); margin-bottom:14px;}
   .timing p{line-height:1.6; font-size:14.5px; margin:0 0 10px;}
@@ -356,16 +344,7 @@
         <span class="status" id="statusText"></span>
       </div>
     </div>
-
-    <div class="card confirm" id="confirmCard">
-      <div class="mark">&#10003;</div>
-      <h2 data-i18n="thanksTitle"></h2>
-      <p data-i18n="thanksBody"></p>
-      <button type="button" id="newSubmission" data-i18n="submitAnother"></button>
-    </div>
   </form>
-
-  <iframe name="hiddenSubmitFrame" id="hiddenSubmitFrame" title="submission" style="display:none"></iframe>
 
   <div class="card context-block">
     <h2 data-i18n="timingTitle"></h2>
@@ -440,9 +419,6 @@
       s8_title: "What makes your idea innovative?",
       s8_hint: "Please explain why you consider your idea innovative — for example: user gesture / experience, material, symbolism, technology or concept derived from another industry, potential application / where you see it being used.",
       submit: "Submit my idea",
-      thanksTitle: "Thank you!",
-      thanksBody: "Your idea has been recorded and sent to the Innovation Committee. It will be reviewed progressively — no idea is wasted, even if it isn't taken forward right away.",
-      submitAnother: "Fill in another idea",
       timingTitle: "Timing & follow-up",
       timing1: "A dedicated period will be allocated for idea generation, followed by regular reminders and reviews throughout the year.",
       timing2: "Ideas will be reviewed progressively by the Innovation Committee according to their relevance, feasibility, market potential and timing.",
@@ -509,9 +485,6 @@
       s8_title: "Qu'est-ce qui rend votre idée innovante ?",
       s8_hint: "Expliquez pourquoi vous considérez votre idée comme innovante — par exemple : geste / expérience utilisateur, matériau, symbolique, technologie ou concept issu d'un autre secteur, application potentielle / où vous imaginez son usage.",
       submit: "Envoyer mon idée",
-      thanksTitle: "Merci !",
-      thanksBody: "Votre idée a bien été enregistrée et transmise au Comité d'Innovation. Elle sera revue progressivement — aucune idée n'est perdue, même si elle n'est pas retenue immédiatement.",
-      submitAnother: "Remplir une autre idée",
       timingTitle: "Calendrier & suivi",
       timing1: "Une période dédiée sera consacrée à la génération d'idées, suivie de rappels et de revues réguliers tout au long de l'année.",
       timing2: "Les idées seront revues progressivement par le Comité d'Innovation selon leur pertinence, leur faisabilité, leur potentiel marché et le timing.",
@@ -595,26 +568,18 @@
 
   var statusText = document.getElementById("statusText");
   var submitBtn = document.getElementById("submitBtn");
-  var confirmCard = document.getElementById("confirmCard");
-  var hiddenFrame = document.getElementById("hiddenSubmitFrame");
 
   // Replace with the "Web app" URL from Deploy > New deployment in the
   // Apps Script project bound to the "Innovation - Réponses" Google Sheet.
+  // GET (not POST) + a real top-level navigation (no target/iframe): this
+  // Workspace only allows signed-in-organization access to the script, and
+  // browsers won't attach the Google login cookie to a cross-site POST or
+  // to any request inside a hidden iframe — only a plain top-level GET
+  // navigation reliably carries it.
   var APPS_SCRIPT_URL = "https://script.google.com/a/macros/tnt-group.com/s/AKfycbyx_WuK5twjoc7AeEWHvwWFE8Dv58nIb56zJaP6Cbg0cTglgWrDpQHqqgK5rboi2KmmIQ/exec";
 
   form.setAttribute("action", APPS_SCRIPT_URL);
-  form.setAttribute("method", "POST");
-  form.setAttribute("target", "hiddenSubmitFrame");
-
-  var awaitingResponse = false;
-  hiddenFrame.addEventListener("load", function(){
-    if(!awaitingResponse) return;
-    awaitingResponse = false;
-    form.hidden = true;
-    confirmCard.classList.add("show");
-    statusText.textContent = "";
-    submitBtn.disabled = false;
-  });
+  form.setAttribute("method", "GET");
 
   form.addEventListener("submit", function(ev){
     if(!form.reportValidity()){
@@ -628,17 +593,8 @@
     document.getElementById("languageField").value = lang;
     statusText.textContent = t("sending");
     submitBtn.disabled = true;
-    awaitingResponse = true;
-    // no ev.preventDefault(): the form submits natively into the hidden
-    // iframe above, so no visitor ever sees their email client open.
-  });
-
-  document.getElementById("newSubmission").addEventListener("click", function(){
-    form.reset();
-    updateTopicVisibility();
-    form.hidden = false;
-    confirmCard.classList.remove("show");
-    statusText.textContent = "";
+    // no ev.preventDefault(): the browser navigates away to the Apps
+    // Script confirmation page, which links back to this form.
   });
 
   updateTopicVisibility();
