@@ -1,0 +1,740 @@
+<title>Innovation Atelier</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#F6F4EE;
+    --surface:#FFFFFF;
+    --surface-2:#EFEBE0;
+    --border:#DCD5C4;
+    --ink:#1B2620;
+    --ink-soft:#5A6960;
+    --accent:#8C6A2F;
+    --accent-strong:#1E3A34;
+    --accent-ink:#FFFFFF;
+    --danger:#9C4A3C;
+    --focus:#8C6A2F;
+    --radius:10px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#101B17;
+      --surface:#16241E;
+      --surface-2:#1D2E27;
+      --border:#2C4038;
+      --ink:#EFEEE7;
+      --ink-soft:#A9B6AE;
+      --accent:#D2B370;
+      --accent-strong:#EFEEE7;
+      --accent-ink:#10231C;
+      --danger:#E09484;
+      --focus:#D2B370;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#101B17;
+    --surface:#16241E;
+    --surface-2:#1D2E27;
+    --border:#2C4038;
+    --ink:#EFEEE7;
+    --ink-soft:#A9B6AE;
+    --accent:#D2B370;
+    --accent-strong:#EFEEE7;
+    --accent-ink:#10231C;
+    --danger:#E09484;
+    --focus:#D2B370;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', system-ui, sans-serif;
+    padding-inline:20px;
+    padding-block:28px 56px;
+  }
+  main{max-width:760px;margin:0 auto;}
+
+  h1,h2,h3{font-family:'Fraunces', Georgia, serif; text-wrap:balance; margin:0;}
+  a{color:var(--accent-strong);}
+
+  .topbar{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+    flex-wrap:wrap; margin-bottom:22px;
+  }
+  .eyebrow{
+    font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);
+    font-weight:600; margin:0 0 6px;
+  }
+  h1{font-size:clamp(26px,5vw,36px); font-weight:600; color:var(--accent-strong);}
+  .lede{color:var(--ink-soft); font-size:15px; max-width:56ch; margin-top:10px; line-height:1.55;}
+
+  .langswitch{
+    display:flex; border:1px solid var(--border); border-radius:999px; overflow:hidden;
+    flex-shrink:0; background:var(--surface);
+  }
+  .langswitch button{
+    border:none; background:transparent; color:var(--ink-soft); font:inherit; font-weight:600;
+    font-size:12px; letter-spacing:.05em; padding:7px 14px; cursor:pointer;
+  }
+  .langswitch button.active{background:var(--accent-strong); color:var(--accent-ink);}
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:22px; margin-bottom:16px;
+  }
+  .intro-card{background:var(--surface-2); border-color:var(--border);}
+  .intro-card p{margin:0 0 10px; line-height:1.6; font-size:14.5px; color:var(--ink);}
+  .intro-card p:last-child{margin-bottom:0;}
+
+  .section-head{display:flex; align-items:baseline; gap:10px; margin-bottom:4px;}
+  .section-num{
+    font-family:'Fraunces', serif; font-size:14px; color:var(--accent);
+    border:1px solid var(--border); border-radius:999px; width:26px; height:26px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; font-weight:600;
+  }
+  .section-title{font-size:19px; font-weight:600; color:var(--accent-strong);}
+  .section-hint{color:var(--ink-soft); font-size:13.5px; margin:6px 0 16px; line-height:1.5;}
+  .section-hint ul{margin:6px 0 0; padding-left:18px;}
+  .section-hint li{margin-bottom:2px;}
+
+  label.field-label{display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px;}
+  .field{margin-bottom:16px;}
+  .field:last-child{margin-bottom:0;}
+  .subnote{font-size:12.5px; color:var(--ink-soft); font-style:italic; margin:2px 0 0 30px;}
+
+  input[type="text"], textarea, select{
+    width:100%; font:inherit; font-size:14.5px; color:var(--ink);
+    background:var(--bg); border:1px solid var(--border); border-radius:8px;
+    padding:10px 12px;
+  }
+  input[type="text"]:focus, textarea:focus, select:focus{
+    outline:2px solid var(--focus); outline-offset:1px;
+  }
+  textarea{min-height:88px; resize:vertical; line-height:1.5;}
+
+  .options{display:flex; flex-direction:column; gap:10px;}
+  .option{
+    display:flex; align-items:flex-start; gap:10px; border:1px solid var(--border);
+    border-radius:8px; padding:11px 12px; cursor:pointer; background:var(--bg);
+  }
+  .option:has(input:checked){border-color:var(--accent); background:var(--surface-2);}
+  .option input{margin-top:3px; accent-color:var(--accent-strong); flex-shrink:0;}
+  .option-text{font-size:14.5px; line-height:1.4;}
+  .option-sub{display:block; font-size:12.5px; color:var(--ink-soft); font-style:italic; margin-top:2px;}
+
+  .required{color:var(--danger); margin-left:2px;}
+
+  .submit-row{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:6px;}
+  button.primary{
+    font:inherit; font-weight:600; font-size:15px; color:var(--accent-ink);
+    background:var(--accent-strong); border:none; border-radius:999px;
+    padding:13px 28px; cursor:pointer;
+  }
+  button.primary:disabled{opacity:.6; cursor:progress;}
+  button.primary:focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  .status{font-size:13.5px; color:var(--ink-soft);}
+  .status.err{color:var(--danger);}
+
+  .confirm{
+    display:none; text-align:center; padding:36px 20px;
+  }
+  .confirm.show{display:block;}
+  .confirm .mark{font-size:38px; color:var(--accent);}
+  .confirm h2{font-size:22px; margin:10px 0 8px;}
+  .confirm p{color:var(--ink-soft); font-size:14.5px; max-width:46ch; margin:0 auto;}
+  .confirm button{
+    margin-top:18px; font:inherit; font-weight:600; font-size:13.5px; color:var(--accent-strong);
+    background:none; border:1px solid var(--border); border-radius:999px; padding:9px 18px; cursor:pointer;
+  }
+
+  .context-block{margin-top:32px;}
+  .context-block h2{font-size:22px; color:var(--accent-strong); margin-bottom:14px;}
+  .timing p{line-height:1.6; font-size:14.5px; margin:0 0 10px;}
+  .formats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:14px;}
+  .format-pill{
+    border:1px solid var(--border); border-radius:8px; padding:12px; font-size:13.5px;
+    background:var(--surface); display:flex; align-items:center; gap:8px;
+  }
+  .format-pill .dot{width:7px; height:7px; border-radius:999px; background:var(--accent); flex-shrink:0;}
+
+  [hidden]{display:none!important;}
+
+  @media (max-width:480px){
+    .card{padding:16px;}
+  }
+</style>
+
+<main>
+  <div class="topbar">
+    <div>
+      <p class="eyebrow" data-i18n="eyebrow"></p>
+      <h1 data-i18n="title"></h1>
+    </div>
+    <div class="langswitch" role="group" aria-label="Language">
+      <button type="button" id="btn-fr">FR</button>
+      <button type="button" id="btn-en">EN</button>
+    </div>
+  </div>
+
+  <div class="card intro-card">
+    <p data-i18n="intro1"></p>
+    <p data-i18n="intro2"></p>
+    <p data-i18n="intro3"></p>
+    <p data-i18n="intro4"></p>
+  </div>
+
+  <form id="ideaForm">
+    <div class="card">
+      <div class="section-head"><span class="section-num">1</span><h2 class="section-title" data-i18n="s1_title"></h2></div>
+      <div class="field">
+        <label class="field-label" for="firstName" data-i18n="firstName"></label>
+        <input type="text" id="firstName" name="firstName" required>
+      </div>
+      <div class="field">
+        <label class="field-label" for="lastName" data-i18n="lastName"></label>
+        <input type="text" id="lastName" name="lastName" required>
+      </div>
+      <div class="field">
+        <label class="field-label" for="department" data-i18n="department"></label>
+        <input type="text" id="department" name="department" required>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-head"><span class="section-num">2</span><h2 class="section-title" data-i18n="s2_title"></h2></div>
+      <p class="section-hint" data-i18n="s2_hint"></p>
+      <div class="options">
+        <label class="option">
+          <input type="radio" name="topic" value="product" required>
+          <span class="option-text" data-i18n="topic_product"></span>
+        </label>
+        <label class="option">
+          <input type="radio" name="topic" value="process" required>
+          <span class="option-text">
+            <span data-i18n="topic_process"></span>
+            <span class="option-sub" data-i18n="topic_process_sub"></span>
+          </span>
+        </label>
+        <label class="option">
+          <input type="radio" name="topic" value="organizational" required>
+          <span class="option-text">
+            <span data-i18n="topic_org"></span>
+            <span class="option-sub" data-i18n="topic_org_sub1"></span>
+            <span class="option-sub" data-i18n="topic_org_sub2"></span>
+          </span>
+        </label>
+        <label class="option">
+          <input type="radio" name="topic" value="other" required>
+          <span class="option-text" data-i18n="topic_other"></span>
+        </label>
+      </div>
+      <div class="field" id="topicOtherWrap" hidden style="margin-top:12px;">
+        <label class="field-label" for="topicOtherText" data-i18n="pleaseSpecify"></label>
+        <input type="text" id="topicOtherText" name="topicOtherText">
+      </div>
+    </div>
+
+    <div class="card" id="section3" hidden>
+      <div class="section-head"><span class="section-num">3</span><h2 class="section-title" data-i18n="s3_title"></h2></div>
+      <p class="section-hint" data-i18n="s3_hint"></p>
+      <div class="options" id="categoryOptions">
+        <label class="option"><input type="radio" name="category" value="fragrance"><span class="option-text" data-i18n="cat_fragrance"></span></label>
+        <label class="option"><input type="radio" name="category" value="skincare"><span class="option-text" data-i18n="cat_skincare"></span></label>
+        <label class="option"><input type="radio" name="category" value="makeup"><span class="option-text" data-i18n="cat_makeup"></span></label>
+        <label class="option"><input type="radio" name="category" value="home"><span class="option-text" data-i18n="cat_home"></span></label>
+        <label class="option"><input type="radio" name="category" value="wines"><span class="option-text" data-i18n="cat_wines"></span></label>
+        <label class="option"><input type="radio" name="category" value="other"><span class="option-text" data-i18n="cat_other"></span></label>
+      </div>
+      <div class="field" id="categoryOtherWrap" hidden style="margin-top:12px;">
+        <label class="field-label" for="categoryOtherText" data-i18n="pleaseSpecify"></label>
+        <input type="text" id="categoryOtherText" name="categoryOtherText">
+      </div>
+    </div>
+
+    <div class="card" id="section4" hidden>
+      <div class="section-head"><span class="section-num">4</span><h2 class="section-title" data-i18n="s4_title"></h2></div>
+      <div class="options">
+        <label class="option"><input type="radio" name="productType" value="primary"><span class="option-text" data-i18n="pt_primary"></span></label>
+        <label class="option"><input type="radio" name="productType" value="secondary"><span class="option-text" data-i18n="pt_secondary"></span></label>
+        <label class="option"><input type="radio" name="productType" value="other"><span class="option-text" data-i18n="pt_other"></span></label>
+      </div>
+      <div class="field" id="productTypeOtherWrap" hidden style="margin-top:12px;">
+        <label class="field-label" for="productTypeOtherText" data-i18n="pleaseSpecify"></label>
+        <input type="text" id="productTypeOtherText" name="productTypeOtherText">
+      </div>
+    </div>
+
+    <div class="card" id="section5" hidden>
+      <div class="section-head"><span class="section-num">5</span><h2 class="section-title" data-i18n="s5_title"></h2></div>
+      <p class="section-hint" data-i18n="s5_hint"></p>
+      <div class="options">
+        <label class="option"><input type="radio" name="texture" value="fluid"><span class="option-text" data-i18n="tex_fluid"></span></label>
+        <label class="option"><input type="radio" name="texture" value="gel"><span class="option-text" data-i18n="tex_gel"></span></label>
+        <label class="option"><input type="radio" name="texture" value="cream"><span class="option-text" data-i18n="tex_cream"></span></label>
+        <label class="option"><input type="radio" name="texture" value="lacquer"><span class="option-text" data-i18n="tex_lacquer"></span></label>
+        <label class="option"><input type="radio" name="texture" value="powder"><span class="option-text" data-i18n="tex_powder"></span></label>
+        <label class="option"><input type="radio" name="texture" value="solid"><span class="option-text" data-i18n="tex_solid"></span></label>
+        <label class="option"><input type="radio" name="texture" value="other"><span class="option-text" data-i18n="tex_other"></span></label>
+      </div>
+      <div class="field" id="textureOtherWrap" hidden style="margin-top:12px;">
+        <label class="field-label" for="textureOtherText" data-i18n="pleaseSpecify"></label>
+        <input type="text" id="textureOtherText" name="textureOtherText">
+      </div>
+    </div>
+
+    <div class="card" id="section6" hidden>
+      <div class="section-head"><span class="section-num">6</span><h2 class="section-title" data-i18n="s6_title"></h2></div>
+      <p class="section-hint" data-i18n="s6_hint"></p>
+      <div class="field">
+        <label class="field-label" for="designDescription" data-i18n="designDescription"></label>
+        <textarea id="designDescription" name="designDescription"></textarea>
+        <p class="subnote" style="margin-left:0;" data-i18n="sketchNote"></p>
+      </div>
+      <div class="field">
+        <label class="field-label" for="material" data-i18n="material"></label>
+        <input type="text" id="material" name="material">
+      </div>
+      <div class="field">
+        <label class="field-label" for="mechanism" data-i18n="mechanism"></label>
+        <input type="text" id="mechanism" name="mechanism">
+      </div>
+      <div class="field">
+        <label class="field-label" for="interaction" data-i18n="interaction"></label>
+        <textarea id="interaction" name="interaction"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="otherProductDetails" data-i18n="otherDetails"></label>
+        <input type="text" id="otherProductDetails" name="otherProductDetails">
+      </div>
+    </div>
+
+    <div class="card" id="section7" hidden>
+      <div class="section-head"><span class="section-num">7</span><h2 class="section-title" data-i18n="s7_title"></h2></div>
+      <p class="section-hint" data-i18n="s7_hint"></p>
+      <div class="field">
+        <label class="field-label" for="concernedDepartment" data-i18n="concernedDepartment"></label>
+        <input type="text" id="concernedDepartment" name="concernedDepartment">
+      </div>
+      <div class="field">
+        <label class="field-label" for="orgDescription" data-i18n="orgDescription"></label>
+        <textarea id="orgDescription" name="orgDescription"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="comparisonCurrentProcess" data-i18n="comparisonCurrentProcess"></label>
+        <textarea id="comparisonCurrentProcess" name="comparisonCurrentProcess"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="issuesSolved" data-i18n="issuesSolved"></label>
+        <textarea id="issuesSolved" name="issuesSolved"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="interactionOrg" data-i18n="interactionOrg"></label>
+        <textarea id="interactionOrg" name="interactionOrg"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="otherOrgDetails" data-i18n="otherDetails"></label>
+        <input type="text" id="otherOrgDetails" name="otherOrgDetails">
+      </div>
+    </div>
+
+    <div class="card" id="section8" hidden>
+      <div class="section-head"><span class="section-num">8</span><h2 class="section-title" data-i18n="s8_title"></h2></div>
+      <p class="section-hint" data-i18n="s8_hint"></p>
+      <div class="field">
+        <textarea id="innovativeness" name="innovativeness" style="min-height:120px;"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="submit-row">
+        <button type="submit" class="primary" id="submitBtn" data-i18n="submit"></button>
+        <span class="status" id="statusText"></span>
+      </div>
+    </div>
+
+    <div class="card confirm" id="confirmCard">
+      <div class="mark">&#10003;</div>
+      <h2 data-i18n="thanksTitle"></h2>
+      <p data-i18n="thanksBody"></p>
+      <button type="button" id="newSubmission" data-i18n="submitAnother"></button>
+    </div>
+  </form>
+
+  <div class="card context-block">
+    <h2 data-i18n="timingTitle"></h2>
+    <div class="timing">
+      <p data-i18n="timing1"></p>
+      <p data-i18n="timing2"></p>
+    </div>
+  </div>
+
+  <div class="card context-block">
+    <h2 data-i18n="commsTitle"></h2>
+    <p class="lede" style="margin-top:0;" data-i18n="commsIntro"></p>
+    <div class="formats">
+      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_newsletter"></span></div>
+      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_visio"></span></div>
+      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_intranet"></span></div>
+      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_teams"></span></div>
+      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_other"></span></div>
+    </div>
+    <p class="lede" data-i18n="commsGoal"></p>
+  </div>
+</main>
+
+<script>
+(function(){
+  var I18N = {
+    en: {
+      eyebrow: "Participative Innovation Program / Challenge",
+      title: "Innovation Atelier",
+      intro1: "We encourage everyone to take part and share their ideas.",
+      intro2: "Every idea is valuable and worth exploring. There should be no frustration if an idea is not implemented immediately — depending on market expectations, business needs, timing and seasonality, ideas may be developed at different stages.",
+      intro3: "The management of ideas will therefore take place progressively over the coming months, with regular reviews and follow-ups.",
+      intro4: "The objective is to create an open and collaborative space where everyone can contribute, share ideas and explore new opportunities.",
+      s1_title: "Contact information",
+      firstName: "First name",
+      lastName: "Last name",
+      department: "Department",
+      s2_title: "Innovation topic",
+      s2_hint: "What type of innovation does your idea relate to? The sections shown below will adjust to your choice.",
+      topic_product: "Product innovation",
+      topic_process: "Process innovation / Finishing / Decoration",
+      topic_process_sub: "Technology transfer — application of a technology or process from another industry",
+      topic_org: "Organizational / Functional innovation",
+      topic_org_sub1: "Internal communication",
+      topic_org_sub2: "Adding value before handing over to the next stage / department",
+      topic_other: "Other",
+      pleaseSpecify: "Please specify",
+      s3_title: "Product innovation — category",
+      s3_hint: "Which category does your idea relate to?",
+      cat_fragrance: "Fragrance",
+      cat_skincare: "Skincare",
+      cat_makeup: "Makeup",
+      cat_home: "Home",
+      cat_wines: "Wines & Spirits",
+      cat_other: "Other",
+      s4_title: "Product type",
+      pt_primary: "Primary packaging",
+      pt_secondary: "Secondary packaging",
+      pt_other: "Other",
+      s5_title: "Product texture / formulation",
+      s5_hint: "For skincare or makeup only.",
+      tex_fluid: "Fluid",
+      tex_gel: "Gel",
+      tex_cream: "Cream",
+      tex_lacquer: "Lacquer",
+      tex_powder: "Powder",
+      tex_solid: "Solid",
+      tex_other: "Other",
+      s6_title: "Product details",
+      s6_hint: "Please provide as much information as possible.",
+      designDescription: "Design description",
+      sketchNote: "If you have a sketch, you're welcome to bring it to the review or email it separately — this form doesn't take file attachments.",
+      material: "Material",
+      mechanism: "Mechanism, if applicable",
+      interaction: "How it works / user interaction",
+      otherDetails: "Other",
+      s7_title: "Organizational / Functional innovation",
+      s7_hint: "Please provide as much information as possible.",
+      concernedDepartment: "Concerned department",
+      orgDescription: "Description of the organizational / functional innovation",
+      comparisonCurrentProcess: "Comparison with the current process / method",
+      issuesSolved: "What issues will be solved by implementing this new process?",
+      interactionOrg: "How it works / user interaction",
+      s8_title: "What makes your idea innovative?",
+      s8_hint: "Please explain why you consider your idea innovative — for example: user gesture / experience, material, symbolism, technology or concept derived from another industry, potential application / where you see it being used.",
+      submit: "Prepare my email to the Innovation Committee",
+      thanksTitle: "Almost there!",
+      thanksBody: "Your email application should now be open with your idea pre-filled and addressed to the Innovation Committee — just hit send. If nothing opened, copy the text from your email draft folder or contact the Innovation Committee directly.",
+      submitAnother: "Fill in another idea",
+      timingTitle: "Timing & follow-up",
+      timing1: "A dedicated period will be allocated for idea generation, followed by regular reminders and reviews throughout the year.",
+      timing2: "Ideas will be reviewed progressively by the Innovation Committee according to their relevance, feasibility, market potential and timing.",
+      commsTitle: "Following the Innovation Committee's progress",
+      commsIntro: "Progress will be shared internally through several possible formats:",
+      fmt_newsletter: "Internal newsletter",
+      fmt_visio: "Dedicated presentation via visio",
+      fmt_intranet: "Intranet / internal platform",
+      fmt_teams: "Regular updates via Teams",
+      fmt_other: "Other",
+      commsGoal: "The objective is to ensure that ideas and progress are visible and shared across the organization.",
+      err_required: "Please fill in the required fields before submitting.",
+      err_submit: "Something went wrong while sending your idea — please try again.",
+      sending: "Sending…"
+    },
+    fr: {
+      eyebrow: "Programme d'innovation participative / Challenge",
+      title: "Atelier Innovation",
+      intro1: "Nous encourageons chacune et chacun à participer et à partager ses idées.",
+      intro2: "Chaque idée a de la valeur et mérite d'être explorée. Il n'y a pas lieu d'être frustré si une idée n'est pas mise en œuvre immédiatement — selon les attentes du marché, les besoins business, le timing et la saisonnalité, les idées peuvent être développées à des étapes différentes.",
+      intro3: "La gestion des idées se fera donc de manière progressive dans les mois à venir, avec des revues et des suivis réguliers.",
+      intro4: "L'objectif est de créer un espace ouvert et collaboratif où chacun peut contribuer, partager des idées et explorer de nouvelles opportunités.",
+      s1_title: "Coordonnées",
+      firstName: "Prénom",
+      lastName: "Nom",
+      department: "Département",
+      s2_title: "Thématique d'innovation",
+      s2_hint: "À quel type d'innovation votre idée se rapporte-t-elle ? Les sections ci-dessous s'adaptent à votre choix.",
+      topic_product: "Innovation produit",
+      topic_process: "Innovation process / Finition / Décoration",
+      topic_process_sub: "Transfert de technologie — application d'une technologie ou d'un procédé issu d'un autre secteur",
+      topic_org: "Innovation organisationnelle / fonctionnelle",
+      topic_org_sub1: "Communication interne",
+      topic_org_sub2: "Apport de valeur avant transmission à l'étape / au département suivant",
+      topic_other: "Autre",
+      pleaseSpecify: "Merci de préciser",
+      s3_title: "Innovation produit — catégorie",
+      s3_hint: "À quelle catégorie votre idée se rapporte-t-elle ?",
+      cat_fragrance: "Parfum",
+      cat_skincare: "Soin",
+      cat_makeup: "Maquillage",
+      cat_home: "Maison",
+      cat_wines: "Vins & Spiritueux",
+      cat_other: "Autre",
+      s4_title: "Type de produit",
+      pt_primary: "Emballage primaire",
+      pt_secondary: "Emballage secondaire",
+      pt_other: "Autre",
+      s5_title: "Texture / formulation du produit",
+      s5_hint: "Uniquement pour le soin ou le maquillage.",
+      tex_fluid: "Fluide",
+      tex_gel: "Gel",
+      tex_cream: "Crème",
+      tex_lacquer: "Laque",
+      tex_powder: "Poudre",
+      tex_solid: "Solide",
+      tex_other: "Autre",
+      s6_title: "Détails du produit",
+      s6_hint: "Merci de donner un maximum de détails.",
+      designDescription: "Description du design",
+      sketchNote: "Si vous avez un croquis, vous pouvez l'apporter lors de la revue ou l'envoyer par e-mail — ce formulaire n'accepte pas de pièces jointes.",
+      material: "Matériau",
+      mechanism: "Mécanisme, le cas échéant",
+      interaction: "Fonctionnement / interaction avec l'utilisateur",
+      otherDetails: "Autre",
+      s7_title: "Innovation organisationnelle / fonctionnelle",
+      s7_hint: "Merci de donner un maximum de détails.",
+      concernedDepartment: "Département concerné",
+      orgDescription: "Description de l'innovation organisationnelle / fonctionnelle",
+      comparisonCurrentProcess: "Comparaison avec le processus / la méthode actuelle",
+      issuesSolved: "Quels problèmes cette nouvelle méthode permettra-t-elle de résoudre ?",
+      interactionOrg: "Fonctionnement / interaction avec l'utilisateur",
+      s8_title: "Qu'est-ce qui rend votre idée innovante ?",
+      s8_hint: "Expliquez pourquoi vous considérez votre idée comme innovante — par exemple : geste / expérience utilisateur, matériau, symbolique, technologie ou concept issu d'un autre secteur, application potentielle / où vous imaginez son usage.",
+      submit: "Préparer mon e-mail pour le Comité d'Innovation",
+      thanksTitle: "Presque terminé !",
+      thanksBody: "Votre messagerie devrait s'être ouverte avec votre idée pré-remplie, adressée au Comité d'Innovation — il ne vous reste plus qu'à cliquer sur Envoyer. Si rien ne s'est ouvert, copiez le texte depuis votre brouillon ou contactez directement le Comité d'Innovation.",
+      submitAnother: "Remplir une autre idée",
+      timingTitle: "Calendrier & suivi",
+      timing1: "Une période dédiée sera consacrée à la génération d'idées, suivie de rappels et de revues réguliers tout au long de l'année.",
+      timing2: "Les idées seront revues progressivement par le Comité d'Innovation selon leur pertinence, leur faisabilité, leur potentiel marché et le timing.",
+      commsTitle: "Suivre l'avancement du Comité d'Innovation",
+      commsIntro: "L'avancement sera partagé en interne via plusieurs formats possibles :",
+      fmt_newsletter: "Newsletter interne",
+      fmt_visio: "Présentation dédiée en visio",
+      fmt_intranet: "Intranet / plateforme interne",
+      fmt_teams: "Points réguliers via Teams",
+      fmt_other: "Autre",
+      commsGoal: "L'objectif est de garantir que les idées et l'avancement du programme restent visibles et partagés au sein de l'organisation.",
+      err_required: "Merci de compléter les champs obligatoires avant d'envoyer.",
+      err_submit: "Un problème est survenu lors de l'envoi de votre idée — merci de réessayer.",
+      sending: "Envoi en cours…"
+    }
+  };
+
+  var lang = "en";
+  try{ lang = localStorage.getItem("innovationFormLang") || "en"; }catch(e){}
+
+  function applyLang(){
+    var dict = I18N[lang] || I18N.en;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var key = el.getAttribute("data-i18n");
+      if(dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.getElementById("btn-fr").classList.toggle("active", lang === "fr");
+    document.getElementById("btn-en").classList.toggle("active", lang === "en");
+    document.documentElement.setAttribute("lang", lang);
+  }
+  document.getElementById("btn-fr").addEventListener("click", function(){
+    lang = "fr"; try{ localStorage.setItem("innovationFormLang", lang); }catch(e){} applyLang();
+  });
+  document.getElementById("btn-en").addEventListener("click", function(){
+    lang = "en"; try{ localStorage.setItem("innovationFormLang", lang); }catch(e){} applyLang();
+  });
+  applyLang();
+
+  function t(key){ return (I18N[lang] || I18N.en)[key] || key; }
+
+  var form = document.getElementById("ideaForm");
+  var topicOtherWrap = document.getElementById("topicOtherWrap");
+  var categoryOtherWrap = document.getElementById("categoryOtherWrap");
+  var productTypeOtherWrap = document.getElementById("productTypeOtherWrap");
+  var textureOtherWrap = document.getElementById("textureOtherWrap");
+  var sections = {
+    s3: document.getElementById("section3"),
+    s4: document.getElementById("section4"),
+    s5: document.getElementById("section5"),
+    s6: document.getElementById("section6"),
+    s7: document.getElementById("section7"),
+    s8: document.getElementById("section8")
+  };
+
+  function updateTopicVisibility(){
+    var topic = form.querySelector('input[name="topic"]:checked');
+    var v = topic ? topic.value : null;
+    topicOtherWrap.hidden = v !== "other";
+
+    var showProduct = (v === "product" || v === "process");
+    var showOrg = (v === "organizational");
+    var showIdea = !!v;
+
+    sections.s3.hidden = !showProduct;
+    sections.s4.hidden = !showProduct;
+    sections.s5.hidden = !showProduct;
+    sections.s6.hidden = !showProduct;
+    sections.s7.hidden = !showOrg;
+    sections.s8.hidden = !showIdea;
+  }
+  form.querySelectorAll('input[name="topic"]').forEach(function(r){
+    r.addEventListener("change", updateTopicVisibility);
+  });
+
+  form.querySelectorAll('input[name="category"]').forEach(function(r){
+    r.addEventListener("change", function(){
+      categoryOtherWrap.hidden = r.value !== "other" || !r.checked;
+    });
+  });
+  form.querySelectorAll('input[name="productType"]').forEach(function(r){
+    r.addEventListener("change", function(){
+      productTypeOtherWrap.hidden = r.value !== "other" || !r.checked;
+    });
+  });
+  form.querySelectorAll('input[name="texture"]').forEach(function(r){
+    r.addEventListener("change", function(){
+      textureOtherWrap.hidden = r.value !== "other" || !r.checked;
+    });
+  });
+
+  var statusText = document.getElementById("statusText");
+  var submitBtn = document.getElementById("submitBtn");
+  var confirmCard = document.getElementById("confirmCard");
+  var TARGET_EMAIL = "gbezin@tnt-group.com";
+
+  var CHOICE_LABEL_KEYS = {
+    topic: {product:"topic_product", process:"topic_process", organizational:"topic_org", other:"topic_other"},
+    category: {fragrance:"cat_fragrance", skincare:"cat_skincare", makeup:"cat_makeup", home:"cat_home", wines:"cat_wines", other:"cat_other"},
+    productType: {primary:"pt_primary", secondary:"pt_secondary", other:"pt_other"},
+    texture: {fluid:"tex_fluid", gel:"tex_gel", cream:"tex_cream", lacquer:"tex_lacquer", powder:"tex_powder", solid:"tex_solid", other:"tex_other"}
+  };
+
+  function choiceLabel(field, value){
+    if(!value) return "";
+    var key = (CHOICE_LABEL_KEYS[field] || {})[value];
+    return key ? t(key) : value;
+  }
+
+  function line(label, value){
+    if(!value) return "";
+    return label + ": " + value + "\n";
+  }
+
+  function buildEmailBody(fd){
+    var v = function(name){ return (fd.get(name) || "").toString().trim(); };
+    var topic = v("topic");
+    var body = "";
+
+    body += "=== " + t("s1_title") + " ===\n";
+    body += line(t("firstName"), v("firstName"));
+    body += line(t("lastName"), v("lastName"));
+    body += line(t("department"), v("department"));
+
+    body += "\n=== " + t("s2_title") + " ===\n";
+    var topicLabel = choiceLabel("topic", topic);
+    if(topic === "other") topicLabel = v("topicOtherText") || topicLabel;
+    body += line(t("s2_title"), topicLabel);
+
+    if(topic === "product" || topic === "process"){
+      body += "\n=== " + t("s3_title") + " ===\n";
+      var catValue = fd.get("category");
+      var catLabel = choiceLabel("category", catValue);
+      if(catValue === "other") catLabel = v("categoryOtherText") || catLabel;
+      body += line(t("s3_title"), catLabel);
+
+      body += "\n=== " + t("s4_title") + " ===\n";
+      var ptValue = fd.get("productType");
+      var ptLabel = choiceLabel("productType", ptValue);
+      if(ptValue === "other") ptLabel = v("productTypeOtherText") || ptLabel;
+      body += line(t("s4_title"), ptLabel);
+
+      body += "\n=== " + t("s5_title") + " ===\n";
+      var texValue = fd.get("texture");
+      var texLabel = choiceLabel("texture", texValue);
+      if(texValue === "other") texLabel = v("textureOtherText") || texLabel;
+      body += line(t("s5_title"), texLabel);
+
+      body += "\n=== " + t("s6_title") + " ===\n";
+      body += line(t("designDescription"), v("designDescription"));
+      body += line(t("material"), v("material"));
+      body += line(t("mechanism"), v("mechanism"));
+      body += line(t("interaction"), v("interaction"));
+      body += line(t("otherDetails"), v("otherProductDetails"));
+    }
+
+    if(topic === "organizational"){
+      body += "\n=== " + t("s7_title") + " ===\n";
+      body += line(t("concernedDepartment"), v("concernedDepartment"));
+      body += line(t("orgDescription"), v("orgDescription"));
+      body += line(t("comparisonCurrentProcess"), v("comparisonCurrentProcess"));
+      body += line(t("issuesSolved"), v("issuesSolved"));
+      body += line(t("interactionOrg"), v("interactionOrg"));
+      body += line(t("otherDetails"), v("otherOrgDetails"));
+    }
+
+    body += "\n=== " + t("s8_title") + " ===\n";
+    body += v("innovativeness") + "\n";
+
+    return body;
+  }
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    if(!form.reportValidity()){
+      statusText.textContent = t("err_required");
+      statusText.classList.add("err");
+      return;
+    }
+    statusText.classList.remove("err");
+    submitBtn.disabled = true;
+
+    var fd = new FormData(form);
+    var firstName = (fd.get("firstName") || "").toString().trim();
+    var lastName = (fd.get("lastName") || "").toString().trim();
+    var department = (fd.get("department") || "").toString().trim();
+    var subject = "Innovation idea — " + firstName + " " + lastName + " (" + department + ")";
+    var body = buildEmailBody(fd);
+
+    var mailto = "mailto:" + encodeURIComponent(TARGET_EMAIL)
+      + "?subject=" + encodeURIComponent(subject)
+      + "&body=" + encodeURIComponent(body);
+
+    window.location.href = mailto;
+
+    form.hidden = true;
+    confirmCard.classList.add("show");
+    statusText.textContent = "";
+    submitBtn.disabled = false;
+  });
+
+  document.getElementById("newSubmission").addEventListener("click", function(){
+    form.reset();
+    updateTopicVisibility();
+    form.hidden = false;
+    confirmCard.classList.remove("show");
+    statusText.textContent = "";
+  });
+
+  updateTopicVisibility();
+})();
+</script>
