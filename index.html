@@ -156,12 +156,6 @@
   .context-block{margin-top:32px;}
   .context-block h2{font-size:22px; color:var(--accent-strong); margin-bottom:14px;}
   .timing p{line-height:1.6; font-size:14.5px; margin:0 0 10px;}
-  .formats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:14px;}
-  .format-pill{
-    border:1px solid var(--border); border-radius:8px; padding:12px; font-size:13.5px;
-    background:var(--surface); display:flex; align-items:center; gap:8px;
-  }
-  .format-pill .dot{width:7px; height:7px; border-radius:999px; background:var(--accent); flex-shrink:0;}
 
   [hidden]{display:none!important;}
 
@@ -353,6 +347,9 @@
       </div>
     </div>
 
+    <input type="hidden" id="submittedAtField" name="submittedAt">
+    <input type="hidden" id="languageField" name="language">
+
     <div class="card">
       <div class="submit-row">
         <button type="submit" class="primary" id="submitBtn" data-i18n="submit"></button>
@@ -368,6 +365,8 @@
     </div>
   </form>
 
+  <iframe name="hiddenSubmitFrame" id="hiddenSubmitFrame" title="submission" style="display:none"></iframe>
+
   <div class="card context-block">
     <h2 data-i18n="timingTitle"></h2>
     <div class="timing">
@@ -376,18 +375,6 @@
     </div>
   </div>
 
-  <div class="card context-block">
-    <h2 data-i18n="commsTitle"></h2>
-    <p class="lede" style="margin-top:0;" data-i18n="commsIntro"></p>
-    <div class="formats">
-      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_newsletter"></span></div>
-      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_visio"></span></div>
-      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_intranet"></span></div>
-      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_teams"></span></div>
-      <div class="format-pill"><span class="dot"></span><span data-i18n="fmt_other"></span></div>
-    </div>
-    <p class="lede" data-i18n="commsGoal"></p>
-  </div>
 </main>
 
 <script>
@@ -452,23 +439,14 @@
       interactionOrg: "How it works / user interaction",
       s8_title: "What makes your idea innovative?",
       s8_hint: "Please explain why you consider your idea innovative — for example: user gesture / experience, material, symbolism, technology or concept derived from another industry, potential application / where you see it being used.",
-      submit: "Prepare my email to the Innovation Committee",
-      thanksTitle: "Almost there!",
-      thanksBody: "Your email application should now be open with your idea pre-filled and addressed to the Innovation Committee — just hit send. If nothing opened, copy the text from your email draft folder or contact the Innovation Committee directly.",
+      submit: "Submit my idea",
+      thanksTitle: "Thank you!",
+      thanksBody: "Your idea has been recorded and sent to the Innovation Committee. It will be reviewed progressively — no idea is wasted, even if it isn't taken forward right away.",
       submitAnother: "Fill in another idea",
       timingTitle: "Timing & follow-up",
       timing1: "A dedicated period will be allocated for idea generation, followed by regular reminders and reviews throughout the year.",
       timing2: "Ideas will be reviewed progressively by the Innovation Committee according to their relevance, feasibility, market potential and timing.",
-      commsTitle: "Following the Innovation Committee's progress",
-      commsIntro: "Progress will be shared internally through several possible formats:",
-      fmt_newsletter: "Internal newsletter",
-      fmt_visio: "Dedicated presentation via visio",
-      fmt_intranet: "Intranet / internal platform",
-      fmt_teams: "Regular updates via Teams",
-      fmt_other: "Other",
-      commsGoal: "The objective is to ensure that ideas and progress are visible and shared across the organization.",
       err_required: "Please fill in the required fields before submitting.",
-      err_submit: "Something went wrong while sending your idea — please try again.",
       sending: "Sending…"
     },
     fr: {
@@ -530,23 +508,14 @@
       interactionOrg: "Fonctionnement / interaction avec l'utilisateur",
       s8_title: "Qu'est-ce qui rend votre idée innovante ?",
       s8_hint: "Expliquez pourquoi vous considérez votre idée comme innovante — par exemple : geste / expérience utilisateur, matériau, symbolique, technologie ou concept issu d'un autre secteur, application potentielle / où vous imaginez son usage.",
-      submit: "Préparer mon e-mail pour le Comité d'Innovation",
-      thanksTitle: "Presque terminé !",
-      thanksBody: "Votre messagerie devrait s'être ouverte avec votre idée pré-remplie, adressée au Comité d'Innovation — il ne vous reste plus qu'à cliquer sur Envoyer. Si rien ne s'est ouvert, copiez le texte depuis votre brouillon ou contactez directement le Comité d'Innovation.",
+      submit: "Envoyer mon idée",
+      thanksTitle: "Merci !",
+      thanksBody: "Votre idée a bien été enregistrée et transmise au Comité d'Innovation. Elle sera revue progressivement — aucune idée n'est perdue, même si elle n'est pas retenue immédiatement.",
       submitAnother: "Remplir une autre idée",
       timingTitle: "Calendrier & suivi",
       timing1: "Une période dédiée sera consacrée à la génération d'idées, suivie de rappels et de revues réguliers tout au long de l'année.",
       timing2: "Les idées seront revues progressivement par le Comité d'Innovation selon leur pertinence, leur faisabilité, leur potentiel marché et le timing.",
-      commsTitle: "Suivre l'avancement du Comité d'Innovation",
-      commsIntro: "L'avancement sera partagé en interne via plusieurs formats possibles :",
-      fmt_newsletter: "Newsletter interne",
-      fmt_visio: "Présentation dédiée en visio",
-      fmt_intranet: "Intranet / plateforme interne",
-      fmt_teams: "Points réguliers via Teams",
-      fmt_other: "Autre",
-      commsGoal: "L'objectif est de garantir que les idées et l'avancement du programme restent visibles et partagés au sein de l'organisation.",
       err_required: "Merci de compléter les champs obligatoires avant d'envoyer.",
-      err_submit: "Un problème est survenu lors de l'envoi de votre idée — merci de réessayer.",
       sending: "Envoi en cours…"
     }
   };
@@ -627,111 +596,41 @@
   var statusText = document.getElementById("statusText");
   var submitBtn = document.getElementById("submitBtn");
   var confirmCard = document.getElementById("confirmCard");
-  var TARGET_EMAIL = "gbezin@tnt-group.com";
+  var hiddenFrame = document.getElementById("hiddenSubmitFrame");
 
-  var CHOICE_LABEL_KEYS = {
-    topic: {product:"topic_product", process:"topic_process", organizational:"topic_org", other:"topic_other"},
-    category: {fragrance:"cat_fragrance", skincare:"cat_skincare", makeup:"cat_makeup", home:"cat_home", wines:"cat_wines", other:"cat_other"},
-    productType: {primary:"pt_primary", secondary:"pt_secondary", other:"pt_other"},
-    texture: {fluid:"tex_fluid", gel:"tex_gel", cream:"tex_cream", lacquer:"tex_lacquer", powder:"tex_powder", solid:"tex_solid", other:"tex_other"}
-  };
+  // Replace with the "Web app" URL from Deploy > New deployment in the
+  // Apps Script project bound to the "Innovation - Réponses" Google Sheet.
+  var APPS_SCRIPT_URL = "https://script.google.com/a/macros/tnt-group.com/s/AKfycbyx_WuK5twjoc7AeEWHvwWFE8Dv58nIb56zJaP6Cbg0cTglgWrDpQHqqgK5rboi2KmmIQ/exec";
 
-  function choiceLabel(field, value){
-    if(!value) return "";
-    var key = (CHOICE_LABEL_KEYS[field] || {})[value];
-    return key ? t(key) : value;
-  }
+  form.setAttribute("action", APPS_SCRIPT_URL);
+  form.setAttribute("method", "POST");
+  form.setAttribute("target", "hiddenSubmitFrame");
 
-  function line(label, value){
-    if(!value) return "";
-    return label + ": " + value + "\n";
-  }
-
-  function buildEmailBody(fd){
-    var v = function(name){ return (fd.get(name) || "").toString().trim(); };
-    var topic = v("topic");
-    var body = "";
-
-    body += "=== " + t("s1_title") + " ===\n";
-    body += line(t("firstName"), v("firstName"));
-    body += line(t("lastName"), v("lastName"));
-    body += line(t("department"), v("department"));
-
-    body += "\n=== " + t("s2_title") + " ===\n";
-    var topicLabel = choiceLabel("topic", topic);
-    if(topic === "other") topicLabel = v("topicOtherText") || topicLabel;
-    body += line(t("s2_title"), topicLabel);
-
-    if(topic === "product" || topic === "process"){
-      body += "\n=== " + t("s3_title") + " ===\n";
-      var catValue = fd.get("category");
-      var catLabel = choiceLabel("category", catValue);
-      if(catValue === "other") catLabel = v("categoryOtherText") || catLabel;
-      body += line(t("s3_title"), catLabel);
-
-      body += "\n=== " + t("s4_title") + " ===\n";
-      var ptValue = fd.get("productType");
-      var ptLabel = choiceLabel("productType", ptValue);
-      if(ptValue === "other") ptLabel = v("productTypeOtherText") || ptLabel;
-      body += line(t("s4_title"), ptLabel);
-
-      body += "\n=== " + t("s5_title") + " ===\n";
-      var texValue = fd.get("texture");
-      var texLabel = choiceLabel("texture", texValue);
-      if(texValue === "other") texLabel = v("textureOtherText") || texLabel;
-      body += line(t("s5_title"), texLabel);
-
-      body += "\n=== " + t("s6_title") + " ===\n";
-      body += line(t("designDescription"), v("designDescription"));
-      body += line(t("material"), v("material"));
-      body += line(t("mechanism"), v("mechanism"));
-      body += line(t("interaction"), v("interaction"));
-      body += line(t("otherDetails"), v("otherProductDetails"));
-    }
-
-    if(topic === "organizational"){
-      body += "\n=== " + t("s7_title") + " ===\n";
-      body += line(t("concernedDepartment"), v("concernedDepartment"));
-      body += line(t("orgDescription"), v("orgDescription"));
-      body += line(t("comparisonCurrentProcess"), v("comparisonCurrentProcess"));
-      body += line(t("issuesSolved"), v("issuesSolved"));
-      body += line(t("interactionOrg"), v("interactionOrg"));
-      body += line(t("otherDetails"), v("otherOrgDetails"));
-    }
-
-    body += "\n=== " + t("s8_title") + " ===\n";
-    body += v("innovativeness") + "\n";
-
-    return body;
-  }
+  var awaitingResponse = false;
+  hiddenFrame.addEventListener("load", function(){
+    if(!awaitingResponse) return;
+    awaitingResponse = false;
+    form.hidden = true;
+    confirmCard.classList.add("show");
+    statusText.textContent = "";
+    submitBtn.disabled = false;
+  });
 
   form.addEventListener("submit", function(ev){
-    ev.preventDefault();
     if(!form.reportValidity()){
+      ev.preventDefault();
       statusText.textContent = t("err_required");
       statusText.classList.add("err");
       return;
     }
     statusText.classList.remove("err");
+    document.getElementById("submittedAtField").value = new Date().toISOString();
+    document.getElementById("languageField").value = lang;
+    statusText.textContent = t("sending");
     submitBtn.disabled = true;
-
-    var fd = new FormData(form);
-    var firstName = (fd.get("firstName") || "").toString().trim();
-    var lastName = (fd.get("lastName") || "").toString().trim();
-    var department = (fd.get("department") || "").toString().trim();
-    var subject = "Innovation idea — " + firstName + " " + lastName + " (" + department + ")";
-    var body = buildEmailBody(fd);
-
-    var mailto = "mailto:" + encodeURIComponent(TARGET_EMAIL)
-      + "?subject=" + encodeURIComponent(subject)
-      + "&body=" + encodeURIComponent(body);
-
-    window.location.href = mailto;
-
-    form.hidden = true;
-    confirmCard.classList.add("show");
-    statusText.textContent = "";
-    submitBtn.disabled = false;
+    awaitingResponse = true;
+    // no ev.preventDefault(): the form submits natively into the hidden
+    // iframe above, so no visitor ever sees their email client open.
   });
 
   document.getElementById("newSubmission").addEventListener("click", function(){
