@@ -228,12 +228,12 @@
       <div class="section-head"><span class="section-num">3</span><h2 class="section-title" data-i18n="s3_title"></h2></div>
       <p class="section-hint" data-i18n="s3_hint"></p>
       <div class="options" id="categoryOptions">
-        <label class="option"><input type="radio" name="category" value="fragrance"><span class="option-text" data-i18n="cat_fragrance"></span></label>
-        <label class="option"><input type="radio" name="category" value="skincare"><span class="option-text" data-i18n="cat_skincare"></span></label>
-        <label class="option"><input type="radio" name="category" value="makeup"><span class="option-text" data-i18n="cat_makeup"></span></label>
-        <label class="option"><input type="radio" name="category" value="home"><span class="option-text" data-i18n="cat_home"></span></label>
-        <label class="option"><input type="radio" name="category" value="wines"><span class="option-text" data-i18n="cat_wines"></span></label>
-        <label class="option"><input type="radio" name="category" value="other"><span class="option-text" data-i18n="cat_other"></span></label>
+        <label class="option"><input type="checkbox" name="category" value="fragrance"><span class="option-text" data-i18n="cat_fragrance"></span></label>
+        <label class="option"><input type="checkbox" name="category" value="skincare"><span class="option-text" data-i18n="cat_skincare"></span></label>
+        <label class="option"><input type="checkbox" name="category" value="makeup"><span class="option-text" data-i18n="cat_makeup"></span></label>
+        <label class="option"><input type="checkbox" name="category" value="home"><span class="option-text" data-i18n="cat_home"></span></label>
+        <label class="option"><input type="checkbox" name="category" value="wines"><span class="option-text" data-i18n="cat_wines"></span></label>
+        <label class="option"><input type="checkbox" name="category" value="other"><span class="option-text" data-i18n="cat_other"></span></label>
       </div>
       <div class="field" id="categoryOtherWrap" hidden style="margin-top:12px;">
         <label class="field-label" for="categoryOtherText" data-i18n="pleaseSpecify"></label>
@@ -258,13 +258,13 @@
       <div class="section-head"><span class="section-num">5</span><h2 class="section-title" data-i18n="s5_title"></h2></div>
       <p class="section-hint" data-i18n="s5_hint"></p>
       <div class="options">
-        <label class="option"><input type="radio" name="texture" value="fluid"><span class="option-text" data-i18n="tex_fluid"></span></label>
-        <label class="option"><input type="radio" name="texture" value="gel"><span class="option-text" data-i18n="tex_gel"></span></label>
-        <label class="option"><input type="radio" name="texture" value="cream"><span class="option-text" data-i18n="tex_cream"></span></label>
-        <label class="option"><input type="radio" name="texture" value="lacquer"><span class="option-text" data-i18n="tex_lacquer"></span></label>
-        <label class="option"><input type="radio" name="texture" value="powder"><span class="option-text" data-i18n="tex_powder"></span></label>
-        <label class="option"><input type="radio" name="texture" value="solid"><span class="option-text" data-i18n="tex_solid"></span></label>
-        <label class="option"><input type="radio" name="texture" value="other"><span class="option-text" data-i18n="tex_other"></span></label>
+        <label class="option"><input type="checkbox" name="texture" value="fluid"><span class="option-text" data-i18n="tex_fluid"></span></label>
+        <label class="option"><input type="checkbox" name="texture" value="gel"><span class="option-text" data-i18n="tex_gel"></span></label>
+        <label class="option"><input type="checkbox" name="texture" value="cream"><span class="option-text" data-i18n="tex_cream"></span></label>
+        <label class="option"><input type="checkbox" name="texture" value="lacquer"><span class="option-text" data-i18n="tex_lacquer"></span></label>
+        <label class="option"><input type="checkbox" name="texture" value="powder"><span class="option-text" data-i18n="tex_powder"></span></label>
+        <label class="option"><input type="checkbox" name="texture" value="solid"><span class="option-text" data-i18n="tex_solid"></span></label>
+        <label class="option"><input type="checkbox" name="texture" value="other"><span class="option-text" data-i18n="tex_other"></span></label>
       </div>
       <div class="field" id="textureOtherWrap" hidden style="margin-top:12px;">
         <label class="field-label" for="textureOtherText" data-i18n="pleaseSpecify"></label>
@@ -381,7 +381,7 @@
       topic_other: "Other",
       pleaseSpecify: "Please specify",
       s3_title: "Product innovation — category",
-      s3_hint: "Which category does your idea relate to?",
+      s3_hint: "Which category does your idea relate to? Select all that apply.",
       cat_fragrance: "Fragrance",
       cat_skincare: "Skincare",
       cat_makeup: "Makeup",
@@ -393,7 +393,7 @@
       pt_secondary: "Secondary packaging",
       pt_other: "Other",
       s5_title: "Product texture / formulation",
-      s5_hint: "For skincare or makeup only.",
+      s5_hint: "For skincare or makeup only. Select all that apply.",
       tex_fluid: "Fluid",
       tex_gel: "Gel",
       tex_cream: "Cream",
@@ -447,7 +447,7 @@
       topic_other: "Autre",
       pleaseSpecify: "Merci de préciser",
       s3_title: "Innovation produit — catégorie",
-      s3_hint: "À quelle catégorie votre idée se rapporte-t-elle ?",
+      s3_hint: "À quelle catégorie votre idée se rapporte-t-elle ? Sélectionnez toutes les réponses applicables.",
       cat_fragrance: "Parfum",
       cat_skincare: "Soin",
       cat_makeup: "Maquillage",
@@ -459,7 +459,7 @@
       pt_secondary: "Emballage secondaire",
       pt_other: "Autre",
       s5_title: "Texture / formulation du produit",
-      s5_hint: "Uniquement pour le soin ou le maquillage.",
+      s5_hint: "Uniquement pour le soin ou le maquillage. Sélectionnez toutes les réponses applicables.",
       tex_fluid: "Fluide",
       tex_gel: "Gel",
       tex_cream: "Crème",
@@ -552,7 +552,7 @@
 
   form.querySelectorAll('input[name="category"]').forEach(function(r){
     r.addEventListener("change", function(){
-      categoryOtherWrap.hidden = r.value !== "other" || !r.checked;
+      categoryOtherWrap.hidden = !form.querySelector('input[name="category"][value="other"]').checked;
     });
   });
   form.querySelectorAll('input[name="productType"]').forEach(function(r){
@@ -562,7 +562,7 @@
   });
   form.querySelectorAll('input[name="texture"]').forEach(function(r){
     r.addEventListener("change", function(){
-      textureOtherWrap.hidden = r.value !== "other" || !r.checked;
+      textureOtherWrap.hidden = !form.querySelector('input[name="texture"][value="other"]').checked;
     });
   });
 
